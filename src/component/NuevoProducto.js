@@ -1,24 +1,34 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux'
 
 //actions de redux
 import { crearNuevosProductosAction } from '../actions/productoActions'
 
 const NuevoProducto = () => {
+
+    //state del componente
+    const [nombre, guardarNombre] = useState('');
+    const [precio, guardarPrecio] = useState(0);
+
     // utilizar use dispatch y te crea una funcion
     const dispatch = useDispatch();
 
     //llamar el action de productionAction
-    const agregarProducto = () => dispatch(crearNuevosProductosAction());
+    const agregarProducto = (producto) => dispatch(crearNuevosProductosAction(producto));
 
     const submitNuevoProducto = e => {
         e.preventDefault();
         // validar formulario
+        if (nombre.trim() === '' || precio <= 0){
+            return;
+        }
+            // si no hay errores
 
-        // si no hay errores
-
-        //crear el nuevo producto
-        agregarProducto();
+            //crear el nuevo producto
+            agregarProducto({
+                nombre,
+                precio
+            });
     }
 
     return (
@@ -38,6 +48,8 @@ const NuevoProducto = () => {
                                     className='form-control'
                                     placeholder='NombreProducto'
                                     name='nombre'
+                                    value={nombre}
+                                    onChange={e => guardarNombre(e.target.value)}
                                 />
                             </div>
 
@@ -48,6 +60,8 @@ const NuevoProducto = () => {
                                     className='form-control'
                                     placeholder='NombreProducto'
                                     name='precio'
+                                    value={precio}
+                                    onChange={e => guardarPrecio(e.target.value)}
                                 />
                             </div>
                             <button
