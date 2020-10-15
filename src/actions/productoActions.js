@@ -6,8 +6,28 @@ import {
 
 //crear nuevos prodcutos
 
-export function crearNuevosProductosAction(producto){
-    return () =>{
-        console.log('producto')
+export function crearNuevosProductosAction(producto) {
+    return (dispatch) => {
+        dispatch(agregarProducto());
+
+        try {
+            dispatch(agregarProductoExito(producto))
+        } catch (error) {
+            dispatch(agregarProductoError(true))
+
+        }
     }
 }
+
+const agregarProducto = () => ({
+    type: AGREGAR_PRODUCTO,
+    payload:true
+})
+
+//si el producto se guarda ene la base de datos
+const agregarProductoExito = producto => ({
+    type: AGREGAR_PRODUCTO_EXITO,
+    payload: producto
+})
+// si hubo un error
+const agregarProductoError = () => ({ })
